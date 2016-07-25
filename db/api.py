@@ -2016,3 +2016,8 @@ def instance_tag_delete_all(context, instance_uuid):
 def instance_tag_exists(context, instance_uuid, tag):
     """Check if specified tag exist on the instance."""
     return IMPL.instance_tag_exists(context, instance_uuid, tag)
+
+def policy_get_all(context):
+    "Get all policys"
+    return IMPL.policy_get_all(context)
+

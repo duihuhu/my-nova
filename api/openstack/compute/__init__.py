@@ -36,6 +36,7 @@ from nova.api.openstack.compute.legacy_v2 import server_metadata \
 from nova.api.openstack.compute.legacy_v2 import servers as v2_servers
 from nova.api.openstack.compute.legacy_v2 import versions \
         as legacy_v2_versions
+
 from nova.i18n import _LW
 
 allow_instance_snapshots_opt = cfg.BoolOpt('allow_instance_snapshots',
@@ -145,7 +146,6 @@ class APIRouter(nova.api.openstack.APIRouter):
                            controller=server_metadata_controller,
                            action='update_all',
                            conditions={"method": ['PUT']})
-
 
 class APIRouterV21(nova.api.openstack.APIRouterV21):
     """Routes requests on the OpenStack API to the appropriate controller

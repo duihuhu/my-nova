@@ -614,7 +614,7 @@ class ServersController(wsgi.Controller):
         try:
             inst_type = flavors.get_flavor_by_flavor_id(
                     flavor_id, ctxt=context, read_deleted="no")
-
+            LOG.info("create_inst_type %s",inst_type)
             (instances, resv_id) = self.compute_api.create(context,
                             inst_type,
                             image_uuid,

@@ -349,7 +349,7 @@ def model_query(context, model,
                         query to match the context's project_id. If set to
                         'allow_none', restriction includes project_id = None.
     """
-
+    LOG.info("policy_session %s",context.session)
     if read_deleted is None:
         read_deleted = context.read_deleted
 
@@ -363,7 +363,6 @@ def model_query(context, model,
     else:
         raise ValueError(_("Unrecognized read_deleted value '%s'")
                            % read_deleted)
-
     query = sqlalchemyutils.model_query(
         model, context.session, args, **query_kwargs)
 
@@ -5005,13 +5004,11 @@ def flavor_get_all(context, inactive=False, filters=None,
     """Returns all flavors.
     """
     filters = filters or {}
-
     # FIXME(sirp): now that we have the `disabled` field for flavors, we
     # should probably remove the use of `deleted` to mark inactive. `deleted`
     # should mean truly deleted, e.g. we can safely purge the record out of the
     # database.
     read_deleted = "yes" if inactive else "no"
-
     query = _flavor_get_query(context, read_deleted=read_deleted)
 
     if 'min_memory_mb' in filters:
@@ -6859,3 +6856,11 @@ def instance_tag_exists(context, instance_uuid, tag):
     q = context.session.query(models.Tag).filter_by(
         resource_id=instance_uuid, tag=tag)
     return context.session.query(q.exists()).scalar()
+
+@require_context
+@pick_context_manager_reader
+def policy_get_all(context):
+    query = model_query(context,models.Policy)
+    query_result = query.all()
+    LOG.warning("query_result is" + str(query_result))
+    return query.all()

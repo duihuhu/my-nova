@@ -1538,7 +1538,6 @@ class API(base.Base):
 
         filter_properties = scheduler_utils.build_filter_properties(
                 scheduler_hints, forced_host, forced_node, instance_type)
-
         return self._create_instance(
                        context, instance_type,
                        image_href, kernel_id, ramdisk_id,
@@ -4400,3 +4399,16 @@ class SecurityGroupAPI(base.Base, security_group_base.SecurityGroupBase):
             # Make sure it's an empty SecurityGroupList and not None
             return objects.SecurityGroupList()
         return security_group_obj.make_secgroup_list(security_groups)
+
+class PolicyAPI(base.Base):
+    def __init__(self, **kwargs):
+        self.compute_rpcapi = compute_rpcapi.ComputeAPI()
+        super(PolicyAPI, self).__init__(**kwargs)
+
+    def get_policy_list(self, context):
+        policys = objects.PolicyList.get_all(context)
+        return [self._reformat_policy_info(agg) for agg in policys]
+
+    def _reformat_policy_info(self, policy):
+        return dict(policy.iteritems())
+

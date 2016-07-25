@@ -12,6 +12,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from oslo_log import log as logging
+LOG = logging.getLogger(__name__)
 
 from nova import db
 from nova import exception

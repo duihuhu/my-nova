@@ -1527,3 +1527,10 @@ class ResourceProviderAggregate(BASE, models.ModelBase):
 
     resource_provider_id = Column(Integer, primary_key=True, nullable=False)
     aggregate_id = Column(Integer, primary_key=True, nullable=False)
+
+class Policy(BASE,NovaBase,models.SoftDeleteMixin):
+    __tablename__ = 'policys_provider'
+    __table_args__ = ()
+    id = Column(Integer,primary_key=True,autoincrement=True)
+    name = Column(String(255))
+
